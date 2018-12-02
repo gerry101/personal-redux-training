@@ -1,4 +1,4 @@
-// Reducer function
+// Reducer function - Todos
 function todos(state = [], action) {
 
 	switch (action.type) {
@@ -12,6 +12,30 @@ function todos(state = [], action) {
 			}))
 		default:
 			return state
+	}
+
+}
+
+// Reducer function - Goals
+function goals(state = [], action) {
+
+	switch (action.type) {
+		case 'ADD_GOAL':
+			return state.concat([action.todo])
+		case 'REMOVE_GOAL':
+			return state.filter((goal) => goal.id !== action.id)
+		default:
+			return state
+	}
+
+}
+
+// Root reducer function
+function app(state = {}, action) {
+
+	return {
+		todos: todos(state.todos, action),
+		goals: goals(state.goals, action),
 	}
 
 }
