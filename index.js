@@ -1,39 +1,19 @@
-{
-	type: 'ADD_TODO',
-	todo: {
-		id: 0,
-		name: 'Wash dishes',
-		completed: false
-	}
-}
-
-{
-	type: 'REMOVE_TODO',
-	id: 0
-}
-
-{
-	type: 'TOGGLE_TODO',
-	id: 0
-}
-
-{
-	type: 'ADD_GOAL',
-	id: 0
-}
-
-{
-	type: 'REMOVE_GOAL',
-	id: 0
-}
-
 // Reducer function
 function todos(state = [], action) {
-	if (action.type == 'ADD_TODO') {
-		return state.concat([action.todo])
+
+	switch (action.type) {
+		case 'ADD_TODO':
+			return state.concat([action.todo])
+		case 'REMOVE_TODO':
+			return state.filter((todo) => todo.id !== action.id)
+		case 'TOGGLE_TODO':
+			return state.map((todo) => todo.id !== action.id ? todo : Object.assign({}, todo, {
+				complete: !todo.complete
+			}))
+		default:
+			return state
 	}
 
-	return state
 }
 
 function createStore(reducer) {
