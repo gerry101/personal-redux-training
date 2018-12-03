@@ -183,6 +183,18 @@
 
       }
 
+      // Reducer function - Loading state
+      function loading(state = true, action) {
+
+        switch (action.type) {
+          case RECEIVE_ACTION:
+            return false
+          default:
+            return state
+        }
+
+      }
+
       // Root reducer function --- Now handled by Redux
       function app(state = {}, action) {
 
@@ -196,6 +208,7 @@
       const store = Redux.createStore(Redux.combineReducers({
         todos,
         goals,
+        loading,
       }), Redux.applyMiddleware(checker, logger));
       store.subscribe(() => {
         const {todos, goals} = store.getState()
@@ -390,7 +403,11 @@
 
         render() {
           const {store} = this.props
-          const {todos, goals} = store.getState()
+          const {todos, goals, loading} = store.getState()
+
+          if(loading) {
+            return <h3><em>loading ...</em></h3>
+          }
 
           return (
             <div>
