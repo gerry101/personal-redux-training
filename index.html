@@ -22,6 +22,10 @@
     <script type="text/javascript">
       /***** Library Code *****/
 
+      function generateUID() {
+        return  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+      }
+
       function createStore(reducer) {
       	// The store should have four parts:
       	// 1. The state.
@@ -65,35 +69,35 @@
       const REMOVE_GOAL = 'REMOVE_GOAL'
 
       // Action creators
-      const addTodoAction(todo) {
+      function addTodoAction(todo) {
       	return {
       		type: ADD_TODO,
       		todo,
       	}
       }
 
-      const removeTodoAction(id) {
+      function removeTodoAction(id) {
       	return {
       		type: REMOVE_TODO,
       		id,
       	}
       }
 
-      const toggleTodoAction(id) {
+      function toggleTodoAction(id) {
       	return {
       		type: TOGGLE_TODO,
       		id,
       	}
       }
 
-      const addGoalAction(goal) {
+      function addGoalAction(goal) {
       	return {
       		type: ADD_GOAL,
       		goal,
       	}
       }
 
-      const removeGoalAction(id) {
+      function removeGoalAction(id) {
       	return {
       		type: REMOVE_GOAL,
       		id,
@@ -123,7 +127,7 @@
 
       	switch (action.type) {
       		case ADD_GOAL:
-      			return state.concat([action.todo])
+      			return state.concat([action.goal])
       		case REMOVE_GOAL:
       			return state.filter((goal) => goal.id !== action.id)
       		default:
@@ -141,6 +145,42 @@
       	}
 
       }
+
+      const store = createStore(app);
+      store.subscribe(() => {
+        console.log('The new state is ' + JSON.stringify(store.getState()))
+      })
+
+      /***** Dom Code *****/
+
+      function addTodo() {
+        const input = document.getElementById('todo')
+        const name = input.value
+        input.value = ''
+
+        store.dispatch(addTodoAction({
+          id: generateUID(),
+          name,
+          complete: false,
+        }))
+      }
+
+      function addGoal() {
+        const input = document.getElementById('goal')
+        const name = input.value
+        input.value = ''
+
+        store.dispatch(addGoalAction({
+          id: generateUID(),
+          name,
+        }))
+      }
+
+      document.getElementById('todoBtn')
+        .addEventListener('click', addTodo)
+
+      document.getElementById('goalBtn')
+        .addEventListener('click', addGoal)
     </script>
   </body>
 </html>
