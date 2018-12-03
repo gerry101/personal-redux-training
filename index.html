@@ -272,7 +272,16 @@
       const List = (props) => {
         return (
           <ul>
-            <li>item</li>
+            {props.items.map((item) => (
+              <li key = {item.id}>
+                <span>
+                  {`${item.name} `}
+                </span>
+                <button onClick = {() => {
+                  props.removeItem(item)
+                }}>X</button>
+              </li>
+            ))}
           </ul>
         )
       }
@@ -290,6 +299,10 @@
           }))
         }
 
+        removeTodo = (todo) => {
+          this.props.store.dispatch(removeTodoAction(todo.id))
+        }
+
         render() {
           return (
             <div>
@@ -301,7 +314,7 @@
                 />
               <button onClick = {this.addTodo}>Add Todo</button>
 
-              <List />
+              <List items = {this.props.todos} removeItem = {this.removeTodo} />
             </div>
           )
         }
@@ -319,6 +332,10 @@
           }))
         }
 
+        removeGoal = (goal) => {
+          this.props.store.dispatch(removeGoalAction(goal.id))
+        }
+
         render() {
           return (
             <div>
@@ -330,21 +347,26 @@
                 />
               <button onClick = {this.addGoal}>Add Goal</button>
 
-              <List />
+              <List items = {this.props.goals} removeItem = {this.removeGoal} />
             </div>
           )
         }
       }
 
       class App extends React.Component {
+        componentDidMount() {
+          this.props.store.subscribe(() => this.forceUpdate())
+        }
+
         render() {
           const {store} = this.props
+          const {todos, goals} = store.getState()
 
           return (
             <div>
               <h5><em>REACT APPLICATION</em></h5>
-              <Todos store = {store} />
-              <Goals store = {store} />
+              <Todos store = {store} todos = {todos} />
+              <Goals store = {store} goals = {goals} />
             </div>
           )
         }
