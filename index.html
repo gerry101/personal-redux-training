@@ -7,6 +7,7 @@
     <script src='https://unpkg.com/react@16.3.0-alpha.1/umd/react.development.js'></script>
     <script src='https://unpkg.com/react-dom@16.3.0-alpha.1/umd/react-dom.development.js'></script>
     <script src='https://unpkg.com/babel-standalone@6.15.0/babel.min.js'></script>
+    <script src='https://tylermcginnis.com/goals-todos-api/index.js'></script>
   </head>
   <body>
     <h5><em>VANNILA JS APPLICATION</em></h5>
@@ -78,6 +79,7 @@
       const TOGGLE_TODO = 'TOGGLE_TODO'
       const ADD_GOAL = 'ADD_GOAL'
       const REMOVE_GOAL = 'REMOVE_GOAL'
+      const RECEIVE_ACTION = 'RECEIVE_ACTION'
 
       // Action creators
       function addTodoAction(todo) {
@@ -115,6 +117,14 @@
       	}
       }
 
+      function receiveDataAction(todos, goals) {
+        return {
+          type: RECEIVE_ACTION,
+          todos,
+          goals,
+        }
+      }
+
       const checker = (store) => (next) => (action) => {
         if(action.type === ADD_TODO && action.todo.name.toLowerCase().indexOf('bitcoin') != -1) {
           return alert('That\'s not a totally bad idea, but you should consider Ethereum instead.')
@@ -149,6 +159,8 @@
       			return state.map((todo) => todo.id !== action.id ? todo : Object.assign({}, todo, {
       				complete: !todo.complete
       			}))
+          case RECEIVE_ACTION:
+            return action.todos
       		default:
       			return state
       	}
@@ -163,6 +175,8 @@
       			return state.concat([action.goal])
       		case REMOVE_GOAL:
       			return state.filter((goal) => goal.id !== action.id)
+          case RECEIVE_ACTION:
+            return action.goals
       		default:
       			return state
       	}
@@ -363,6 +377,14 @@
 
       class App extends React.Component {
         componentDidMount() {
+
+          Promise.all([
+            API.fetchTodos(),
+            API.fetchGoals(),
+          ]).then(([todos, goals]) => {
+            this.props.store.dispatch(receiveDataAction(todos, goals))
+          })
+
           this.props.store.subscribe(() => this.forceUpdate())
         }
 
