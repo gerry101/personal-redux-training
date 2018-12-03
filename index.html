@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Todos/Goals</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js'></script>
   </head>
   <body>
     <div>
@@ -26,6 +27,7 @@
         return  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
       }
 
+      // --- Now handled by Redux
       function createStore(reducer) {
       	// The store should have four parts:
       	// 1. The state.
@@ -136,7 +138,7 @@
 
       }
 
-      // Root reducer function
+      // Root reducer function --- Now handled by Redux
       function app(state = {}, action) {
 
       	return {
@@ -146,7 +148,10 @@
 
       }
 
-      const store = createStore(app);
+      const store = Redux.createStore(Redux.combineReducers({
+        todos,
+        goals,
+      }));
       store.subscribe(() => {
         const {todos, goals} = store.getState()
 
