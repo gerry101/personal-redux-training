@@ -4,8 +4,13 @@
     <meta charset="utf-8">
     <title>Todos/Goals</title>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js'></script>
+    <script src='https://unpkg.com/react@16.3.0-alpha.1/umd/react.development.js'></script>
+    <script src='https://unpkg.com/react-dom@16.3.0-alpha.1/umd/react-dom.development.js'></script>
+    <script src='https://unpkg.com/babel-standalone@6.15.0/babel.min.js'></script>
   </head>
   <body>
+    <h5><em>VANNILA JS APPLICATION</em></h5>
+
     <div>
       <h1>Todo List</h1>
       <input type='text' id='todo' placeholder='Add Todo'>
@@ -19,6 +24,10 @@
       <button id='goalBtn'>Add Goal</button>
       <ul id='goals'></ul>
     <div>
+
+    <hr>
+
+    <div id='app'></div>
 
     <script type="text/javascript">
       /***** Library Code *****/
@@ -256,6 +265,66 @@
 
       document.getElementById('goalBtn')
         .addEventListener('click', addGoal)
+    </script>
+
+    <script type='text/babel'>
+
+      const List = (props) => {
+        return (
+          <ul>
+            <li>item</li>
+          </ul>
+        )
+      }
+
+      class Todos extends React.Component {
+        render() {
+          return (
+            <div>
+              <h1>Todo List</h1>
+              <input
+                type='text'
+                placeholder='Add Todo'
+                />
+              <button>Add Todo</button>
+
+              <List />
+            </div>
+          )
+        }
+      }
+
+      class Goals extends React.Component {
+        render() {
+          return (
+            <div>
+              <h1>Goals</h1>
+              <input
+                type='text'
+                placeholder='Add Goal'
+                />
+              <button>Add Goal</button>
+
+              <List />
+            </div>
+          )
+        }
+      }
+
+      class App extends React.Component {
+        render() {
+          return (
+            <div>
+              <h5><em>REACT APPLICATION</em></h5>
+              <Todos />
+              <Goals />
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(<App />, document.getElementById('app'))
+
     </script>
   </body>
 </html>
