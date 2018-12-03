@@ -278,6 +278,18 @@
       }
 
       class Todos extends React.Component {
+        addTodo = (e) => {
+          e.preventDefault()
+          const name = this.input.value
+          this.input.value = ''
+
+          this.props.store.dispatch(addTodoAction({
+            id: generateUID(),
+            name,
+            complete: false,
+          }))
+        }
+
         render() {
           return (
             <div>
@@ -285,8 +297,9 @@
               <input
                 type='text'
                 placeholder='Add Todo'
+                ref={(input) => this.input = input}
                 />
-              <button>Add Todo</button>
+              <button onClick = {this.addTodo}>Add Todo</button>
 
               <List />
             </div>
@@ -295,6 +308,17 @@
       }
 
       class Goals extends React.Component {
+        addGoal = (e) => {
+          e.preventDefault()
+          const name = this.input.value
+          this.input.value = ''
+
+          this.props.store.dispatch(addGoalAction({
+            id: generateUID(),
+            name,
+          }))
+        }
+
         render() {
           return (
             <div>
@@ -302,8 +326,9 @@
               <input
                 type='text'
                 placeholder='Add Goal'
+                ref={(input) => this.input = input}
                 />
-              <button>Add Goal</button>
+              <button onClick = {this.addGoal}>Add Goal</button>
 
               <List />
             </div>
@@ -313,17 +338,19 @@
 
       class App extends React.Component {
         render() {
+          const {store} = this.props
+
           return (
             <div>
               <h5><em>REACT APPLICATION</em></h5>
-              <Todos />
-              <Goals />
+              <Todos store = {store} />
+              <Goals store = {store} />
             </div>
           )
         }
       }
 
-      ReactDOM.render(<App />, document.getElementById('app'))
+      ReactDOM.render(<App store={store} />, document.getElementById('app'))
 
     </script>
   </body>
