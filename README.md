@@ -17,12 +17,11 @@ In a bid to understand the inner workings of Redux, this project aims to rebuild
   4. Calls to the store are updated to be asyncronous.
   5. The project folder structure is revamped to meet industry standards.
 
-It has been built under the instruction of Tyler Mcginnis(https://tylermcginnis.com) from his course Redux(https://tylermcginnis.com/courses/redux/).
-
 # Deployment
 
-To run this project, clone it.
-Run [ npm i ] to install the project dependencies.
-Run [ npm start ] to open the project in your default browser.
+To run this project: 
+	1. Clone it.
+	2. Run [ npm i ] to install the project dependencies.
+	3. Run [ npm start ] to open the project in your default browser.
 
 Happy hacking!
